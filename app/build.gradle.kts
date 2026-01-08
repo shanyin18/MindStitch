@@ -73,6 +73,10 @@ dependencies {
     implementation("com.halilibo.compose-richtext:richtext-ui-material3:1.0.0-alpha01")
     implementation("com.halilibo.compose-richtext:richtext-commonmark:1.0.0-alpha01")
 
+    // Network - WebDAV
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+    implementation("com.google.code.gson:gson:2.10.1")
+
     // Image Cropping
     implementation("com.github.yalantis:ucrop:2.2.8")
 

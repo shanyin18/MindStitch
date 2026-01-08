@@ -5,6 +5,9 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface TodoDao {
+    @Query("SELECT * FROM todos ORDER BY createdAt ASC")
+    suspend fun getAllTodos(): List<TodoEntity>
+
     @Query("SELECT * FROM todos WHERE date >= :startTime AND date < :endTime ORDER BY createdAt ASC")
     suspend fun getTodosByDateRange(startTime: Long, endTime: Long): List<TodoEntity>
 

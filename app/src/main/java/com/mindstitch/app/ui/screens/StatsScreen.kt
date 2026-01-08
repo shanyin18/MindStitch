@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -48,7 +49,8 @@ fun StatsScreen(
     onNavigateToStream: () -> Unit,
     onNavigateToCapture: () -> Unit,
     onNavigateToProfile: () -> Unit,
-    onNavigateToDetail: (Long) -> Unit = {}
+    onNavigateToDetail: (Long) -> Unit = {},
+    onNavigateToSyncSettings: () -> Unit = {}
 ) {
     val context = LocalContext.current
     val repository = remember { IdeaRepository.getInstance(context) }
@@ -96,6 +98,14 @@ fun StatsScreen(
                         Icon(
                             imageVector = Icons.Outlined.ArrowBack,
                             contentDescription = "Back"
+                        )
+                    }
+                },
+                actions = {
+                    IconButton(onClick = onNavigateToSyncSettings) {
+                        Icon(
+                            imageVector = Icons.Default.CloudUpload,
+                            contentDescription = "Cloud Sync"
                         )
                     }
                 },

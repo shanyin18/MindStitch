@@ -184,6 +184,49 @@ public final class TodoDao_Impl implements TodoDao {
   }
 
   @Override
+  public Object getAllTodos(final Continuation<? super List<TodoEntity>> $completion) {
+    final String _sql = "SELECT * FROM todos ORDER BY createdAt ASC";
+    final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 0);
+    final CancellationSignal _cancellationSignal = DBUtil.createCancellationSignal();
+    return CoroutinesRoom.execute(__db, false, _cancellationSignal, new Callable<List<TodoEntity>>() {
+      @Override
+      @NonNull
+      public List<TodoEntity> call() throws Exception {
+        final Cursor _cursor = DBUtil.query(__db, _statement, false, null);
+        try {
+          final int _cursorIndexOfId = CursorUtil.getColumnIndexOrThrow(_cursor, "id");
+          final int _cursorIndexOfTitle = CursorUtil.getColumnIndexOrThrow(_cursor, "title");
+          final int _cursorIndexOfDate = CursorUtil.getColumnIndexOrThrow(_cursor, "date");
+          final int _cursorIndexOfIsCompleted = CursorUtil.getColumnIndexOrThrow(_cursor, "isCompleted");
+          final int _cursorIndexOfCreatedAt = CursorUtil.getColumnIndexOrThrow(_cursor, "createdAt");
+          final List<TodoEntity> _result = new ArrayList<TodoEntity>(_cursor.getCount());
+          while (_cursor.moveToNext()) {
+            final TodoEntity _item;
+            final long _tmpId;
+            _tmpId = _cursor.getLong(_cursorIndexOfId);
+            final String _tmpTitle;
+            _tmpTitle = _cursor.getString(_cursorIndexOfTitle);
+            final long _tmpDate;
+            _tmpDate = _cursor.getLong(_cursorIndexOfDate);
+            final boolean _tmpIsCompleted;
+            final int _tmp;
+            _tmp = _cursor.getInt(_cursorIndexOfIsCompleted);
+            _tmpIsCompleted = _tmp != 0;
+            final long _tmpCreatedAt;
+            _tmpCreatedAt = _cursor.getLong(_cursorIndexOfCreatedAt);
+            _item = new TodoEntity(_tmpId,_tmpTitle,_tmpDate,_tmpIsCompleted,_tmpCreatedAt);
+            _result.add(_item);
+          }
+          return _result;
+        } finally {
+          _cursor.close();
+          _statement.release();
+        }
+      }
+    }, $completion);
+  }
+
+  @Override
   public Object getTodosByDateRange(final long startTime, final long endTime,
       final Continuation<? super List<TodoEntity>> $completion) {
     final String _sql = "SELECT * FROM todos WHERE date >= ? AND date < ? ORDER BY createdAt ASC";

@@ -23,6 +23,7 @@ sealed class Screen(val route: String) {
     data object Stats : Screen("stats")
     data object Profile : Screen("profile")
     data object Stitch : Screen("stitch")
+    data object SyncSettings : Screen("sync_settings")
 }
 
 @Composable
@@ -83,7 +84,13 @@ fun MindStitchNavigation(
                 onNavigateToProfile = { /* TODO */ },
                 onNavigateToDetail = { ideaId -> 
                     navController.navigate(Screen.Detail.createRoute(ideaId.toString()))
-                }
+                },
+                onNavigateToSyncSettings = { navController.navigate(Screen.SyncSettings.route) }
+            )
+        }
+        composable(Screen.SyncSettings.route) {
+            com.mindstitch.app.ui.screens.SyncSettingsScreen(
+                onNavigateBack = { navController.popBackStack() }
             )
         }
     }
