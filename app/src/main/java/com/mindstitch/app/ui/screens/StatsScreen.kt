@@ -239,7 +239,8 @@ fun StatsScreen(
             title = {
                 Text(
                     text = "${currentMonth + 1}月${selectedDay}日",
-                    style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
+                    style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                    color = Color.White
                 )
             },
             text = {
@@ -254,7 +255,7 @@ fun StatsScreen(
                         Text(
                             text = "待办事项",
                             style = MaterialTheme.typography.labelLarge,
-                            color = Primary
+                            color = Color.White
                         )
                         
                         // 添加待办输入框
@@ -267,11 +268,11 @@ fun StatsScreen(
                                 value = newTodoText,
                                 onValueChange = { newTodoText = it },
                                 singleLine = true,
-                                textStyle = MaterialTheme.typography.bodyMedium.copy(color = MaterialTheme.colorScheme.onSurface),
+                                textStyle = MaterialTheme.typography.bodyMedium.copy(color = Color.White),
                                 modifier = Modifier
                                     .weight(1f)
                                     .height(40.dp)
-                                    .background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(8.dp))
+                                    .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f), RoundedCornerShape(8.dp))
                                     .padding(horizontal = 12.dp),
                                 decorationBox = { innerTextField ->
                                     Box(contentAlignment = Alignment.CenterStart) {
@@ -279,7 +280,7 @@ fun StatsScreen(
                                             Text(
                                                 "添加新待办...",
                                                 style = MaterialTheme.typography.bodySmall,
-                                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                                                color = Color.White.copy(alpha = 0.6f)
                                             )
                                         }
                                         innerTextField()
@@ -311,7 +312,7 @@ fun StatsScreen(
                             Text(
                                 "暂无待办", 
                                 style = MaterialTheme.typography.bodySmall, 
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                                color = Color.White.copy(alpha = 0.6f)
                             )
                         } else {
                             // 使用LazyColumn如果列表很长，这里用Column简单处理
@@ -342,14 +343,19 @@ fun StatsScreen(
                                                         todoData = todoRepository.getMonthTodoCounts(currentYear, currentMonth)
                                                     }
                                                 },
-                                                modifier = Modifier.size(32.dp)
+                                                modifier = Modifier.size(32.dp),
+                                                colors = CheckboxDefaults.colors(
+                                                    checkedColor = Primary,
+                                                    uncheckedColor = Color.White.copy(alpha = 0.6f),
+                                                    checkmarkColor = Color.White
+                                                )
                                             )
                                             Text(
                                                 text = todo.title,
                                                 style = MaterialTheme.typography.bodyMedium.copy(
-                                                    textDecoration = if (todo.isCompleted) androidx.compose.ui.text.style.TextDecoration.LineThrough else null,
-                                                    color = if (todo.isCompleted) MaterialTheme.colorScheme.onSurfaceVariant else MaterialTheme.colorScheme.onSurface
+                                                    textDecoration = if (todo.isCompleted) androidx.compose.ui.text.style.TextDecoration.LineThrough else null
                                                 ),
+                                                color = if (todo.isCompleted) Color.White.copy(alpha = 0.4f) else Color.White,
                                                 modifier = Modifier.padding(start = 8.dp)
                                             )
                                         }
@@ -366,7 +372,7 @@ fun StatsScreen(
                                             Icon(
                                                 Icons.Default.Delete, 
                                                 null, 
-                                                tint = MaterialTheme.colorScheme.error.copy(alpha = 0.6f),
+                                                tint = Color.White.copy(alpha = 0.6f),
                                                 modifier = Modifier.size(16.dp)
                                             )
                                         }
@@ -376,21 +382,21 @@ fun StatsScreen(
                         }
                     }
 
-                    HorizontalDivider()
+                    HorizontalDivider(color = Color.White.copy(alpha = 0.1f))
 
                     // 2. 想法记录区域
                     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                         Text(
                             text = "想法记录",
                             style = MaterialTheme.typography.labelLarge,
-                            color = Primary
+                            color = Color.White
                         )
                         
                         if (dayIdeas.isEmpty()) {
                             Text(
                                 "这天没有记录想法", 
                                 style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                                color = Color.White.copy(alpha = 0.6f)
                             )
                         } else {
                             Column(
@@ -406,7 +412,7 @@ fun StatsScreen(
                                         },
                                         shape = RoundedCornerShape(8.dp),
                                         color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
-                                        modifier = Modifier.padding(vertical = 4.dp)
+                                    modifier = Modifier.padding(vertical = 4.dp)
                                     ) {
                                         Row(
                                             modifier = Modifier
@@ -419,12 +425,13 @@ fun StatsScreen(
                                                 Text(
                                                     text = idea.title,
                                                     style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
-                                                    maxLines = 1
+                                                    maxLines = 1,
+                                                    color = Color.White
                                                 )
                                                 Text(
                                                     text = idea.folder,
                                                     style = MaterialTheme.typography.labelSmall,
-                                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                                    color = Color.White.copy(alpha = 0.6f)
                                                 )
                                             }
                                             if (idea.rating > 0) {
@@ -443,7 +450,7 @@ fun StatsScreen(
             },
             confirmButton = {
                 TextButton(onClick = { showDayDialog = false }) {
-                    Text("关闭")
+                    Text("关闭", color = Color.White)
                 }
             }
         )
